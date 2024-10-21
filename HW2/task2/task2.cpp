@@ -39,7 +39,7 @@ int main() {
     std::size_t dot_pos_1 = args[0].find_last_of('.');
     if (dot_pos_1 != std::string::npos) {
         ext1 = args[0].substr(dot_pos_1 + 1);
-        file_name1 = std::stoi(args[0].substr(0,dot_pos_1));
+        file_name1 = std::stoi(args[0].substr(0, dot_pos_1));
     } else {
         std::cout << "Wrong Input" << std::endl;
         EXIT_FAILURE;
@@ -53,11 +53,14 @@ int main() {
         EXIT_FAILURE;
     }
 
-    if (ext1 == ".txt" && ext2 == ".txt") {
-    } else if (ext1 == ".png" && ext2 == ".png") {
-    } else if (ext1 == ".txt" && ext2 == ".png") {
+    if (ext1 == "txt" && ext2 == "txt") {
+        std::cout << (file_name1 + file_name2) / 2 << std::endl;
+    } else if (ext1 == "png" && ext2 == "png") {
+        std::cout << file_name1 + file_name2 << std::endl;
+    } else if (ext1 == "txt" && ext2 == "png") {
+        std::cout << file_name1 % file_name2 << std::endl;
     } else {
-        std::cout << "Wrong input format" << std::endl;
+        std::cerr << "Wrong input format" << std::endl;
         EXIT_FAILURE;
     }
 
