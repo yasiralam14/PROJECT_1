@@ -1,0 +1,4 @@
+/home/ubuntu/Modern_C_for_vision/Home_works/hw3/build/CMakeFiles/html_writer.dir
+/home/ubuntu/Modern_C_for_vision/Home_works/hw3/build/CMakeFiles/image_browser.dir
+/home/ubuntu/Modern_C_for_vision/Home_works/hw3/build/CMakeFiles/edit_cache.dir
+/home/ubuntu/Modern_C_for_vision/Home_works/hw3/build/CMakeFiles/rebuild_cache.dir
