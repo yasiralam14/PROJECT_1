@@ -1,0 +1,3 @@
+/home/ubuntu/Modern_C_for_vision/Home_works/hw4/tests/build/CMakeFiles/ipb_algorithm.dir
+/home/ubuntu/Modern_C_for_vision/Home_works/hw4/tests/build/CMakeFiles/edit_cache.dir
+/home/ubuntu/Modern_C_for_vision/Home_works/hw4/tests/build/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libipb_algorithm.a CMakeFiles/ipb_algorithm.dir/ipb_algorithm.cpp.o
+/usr/bin/ranlib libipb_algorithm.a
