@@ -1,0 +1,5 @@
+/home/ubuntu/Modern_C_for_vision/C++/serialization/build/CMakeFiles/mat_serialization.dir
+/home/ubuntu/Modern_C_for_vision/C++/serialization/build/CMakeFiles/convert_dataset.dir
+/home/ubuntu/Modern_C_for_vision/C++/serialization/build/CMakeFiles/main.dir
+/home/ubuntu/Modern_C_for_vision/C++/serialization/build/CMakeFiles/edit_cache.dir
+/home/ubuntu/Modern_C_for_vision/C++/serialization/build/CMakeFiles/rebuild_cache.dir

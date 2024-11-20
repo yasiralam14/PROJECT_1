@@ -1,0 +1,3 @@
+/home/ubuntu/Modern_C_for_vision/Home_works/testing/CMakeFiles/main.dir
+/home/ubuntu/Modern_C_for_vision/Home_works/testing/CMakeFiles/edit_cache.dir
+/home/ubuntu/Modern_C_for_vision/Home_works/testing/CMakeFiles/rebuild_cache.dir

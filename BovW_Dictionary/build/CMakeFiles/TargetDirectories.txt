@@ -1,0 +1,3 @@
+/home/ubuntu/Modern_C_for_vision/C++/BovW_Dictionary/build/CMakeFiles/test.dir
+/home/ubuntu/Modern_C_for_vision/C++/BovW_Dictionary/build/CMakeFiles/edit_cache.dir
+/home/ubuntu/Modern_C_for_vision/C++/BovW_Dictionary/build/CMakeFiles/rebuild_cache.dir
