@@ -7,8 +7,25 @@
 #include "iostream"
 #include "serialize.hpp"
 
-namespace ipb::sterelization::sifts {
+namespace ipb::serialization::sifts {
 void ConvertDataset(const std::filesystem::path& img_path) {
+    if (!std::filesystem::exists(img_path)) {
+        std::cerr << "Error: The directory does not exist: " << img_path
+                  << std::endl;
+        return;
+    }
+
+    if (!std::filesystem::is_directory(img_path)) {
+        std::cerr << "Error: The path is not a directory: " << img_path
+                  << std::endl;
+        return;
+    }
+
+    // Check if the directory is empty
+    if (std::filesystem::is_empty(img_path)) {
+        std::cerr << "Error: The directory is empty: " << img_path << std::endl;
+        return;
+    }
     cv::Ptr<cv::SIFT> sift = cv::SIFT::create();
     for (const auto& entry : std::filesystem::directory_iterator(img_path)) {
         std::string file_name = (entry.path().parent_path().parent_path() /
@@ -21,6 +38,12 @@ void ConvertDataset(const std::filesystem::path& img_path) {
         std::filesystem::create_directories(file_path.parent_path());
 
         cv::Mat img = cv::imread(entry.path(), cv::IMREAD_GRAYSCALE);
+        if (img.empty()) {
+            std::cerr << "Error: Could not read image: " << entry.path()
+                      << std::endl;
+            continue;
+        }
+
         std::vector<cv::KeyPoint> keypoints;
         sift->detect(img, keypoints);
         cv::Mat descriptors;
@@ -38,4 +61,4 @@ std::vector<cv::Mat> LoadDataset(const std::filesystem::path& bin_path) {
 
     return mContainer;
 }
-}  // namespace ipb::sterelization::sifts
+}  // namespace ipb::serialization::sifts

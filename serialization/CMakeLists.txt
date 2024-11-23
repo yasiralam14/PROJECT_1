@@ -19,7 +19,4 @@ target_include_directories(convert_dataset PUBLIC include)
 target_link_libraries(convert_dataset PUBLIC ${OpenCV_LIBS} mat_serialization)
 
 # Add the tests subdirectory
-add_executable(main main.cpp)
-target_include_directories(main PUBLIC ${OpenCV_INCLUDE_DIRS})
-target_include_directories(main PUBLIC include)
-target_link_libraries(main ${CMAKE_BINARY_DIR}/libmat_serialization.a ${OpenCV_LIBS})
+add_subdirectory(tests)

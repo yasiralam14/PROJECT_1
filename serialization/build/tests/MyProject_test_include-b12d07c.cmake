@@ -1,0 +1,5 @@
+if(EXISTS "/home/ubuntu/Modern_C_for_vision/C++/serialization/build/tests/MyProject_test_tests-b12d07c.cmake")
+  include("/home/ubuntu/Modern_C_for_vision/C++/serialization/build/tests/MyProject_test_tests-b12d07c.cmake")
+else()
+  add_test(MyProject_test_NOT_BUILT-b12d07c MyProject_test_NOT_BUILT-b12d07c)
+endif()

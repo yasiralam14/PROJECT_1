@@ -12,9 +12,7 @@ void Serialize(const cv::Mat& m, const std::string& filename) {
     cv::Size matSize = m.size();
     int rows = m.rows;
     int cols = m.cols;
-    int channels = m.channels();
     int type = m.type();  // Include the type of matrix to deserialize correctly
-
     // Open the file in binary mode
     std::ofstream file(filename, std::ios::binary);
     if (!file) {
@@ -25,10 +23,7 @@ void Serialize(const cv::Mat& m, const std::string& filename) {
     // Write the matrix size (rows, cols, channels) and type
     file.write(reinterpret_cast<const char*>(&rows), sizeof(int));
     file.write(reinterpret_cast<const char*>(&cols), sizeof(int));
-    file.write(reinterpret_cast<const char*>(&channels), sizeof(int));
-    file.write(reinterpret_cast<const char*>(&type),
-               sizeof(int));  // Write the matrix type
-
+    file.write(reinterpret_cast<const char*>(&type), sizeof(int));
     // Write the matrix data (ensure you correctly handle the element size)
     file.write(reinterpret_cast<const char*>(m.data), m.total() * m.elemSize());
 
@@ -40,12 +35,13 @@ cv::Mat Deserialize(const std::string& filename) {
     int rows;
     int cols;
     int channels;
+    int type;
     std::ifstream file(filename, std::ios::binary);
     if (file) {
         file.read(reinterpret_cast<char*>(&rows), sizeof(int));
         file.read(reinterpret_cast<char*>(&cols), sizeof(int));
-        file.read(reinterpret_cast<char*>(&channels), sizeof(int));
-        m.create(rows, cols, CV_32FC1);
+        file.read(reinterpret_cast<char*>(&type), sizeof(int));
+        m.create(rows, cols, type);
         file.read(reinterpret_cast<char*>(m.data), m.total() * m.elemSize());
     } else {
         std::cerr << "no file found" << std::endl;
