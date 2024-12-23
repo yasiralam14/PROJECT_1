@@ -1,64 +1,73 @@
 #include <filesystem>
 #include <fstream>
+#include <iostream>
 #include <opencv2/features2d.hpp>
 #include <opencv2/opencv.hpp>
-#include <string>
+#include <opencv2/xfeatures2d.hpp>
 
-#include "iostream"
-#include "serialize.hpp"
+namespace fs = std::filesystem;
 
-namespace ipb::serialization::sifts {
-void ConvertDataset(const std::filesystem::path& img_path) {
-    if (!std::filesystem::exists(img_path)) {
-        std::cerr << "Error: The directory does not exist: " << img_path
-                  << std::endl;
+void convertDataset(const std::string& folderPath) {
+    // Check if the folder exists
+    if (!fs::exists(folderPath)) {
+        std::cerr << "Directory does not exist: " << folderPath << std::endl;
         return;
     }
 
-    if (!std::filesystem::is_directory(img_path)) {
-        std::cerr << "Error: The path is not a directory: " << img_path
-                  << std::endl;
-        return;
+    // Create the bin directory if it doesn't exist
+    std::string binDir = folderPath + "/bin";
+    if (!fs::exists(binDir)) {
+        fs::create_directory(binDir);
     }
 
-    // Check if the directory is empty
-    if (std::filesystem::is_empty(img_path)) {
-        std::cerr << "Error: The directory is empty: " << img_path << std::endl;
-        return;
-    }
+    // Initialize SIFT detector
     cv::Ptr<cv::SIFT> sift = cv::SIFT::create();
-    for (const auto& entry : std::filesystem::directory_iterator(img_path)) {
-        std::string file_name = (entry.path().parent_path().parent_path() /
-                                 "bin" / entry.path().stem())
-                                        .string() +
-                                ".bin";
 
-        std::filesystem::path file_path = file_name;
-        // Create parent directories
-        std::filesystem::create_directories(file_path.parent_path());
+    // Iterate over all files in the folder
+    for (const auto& entry : fs::directory_iterator(folderPath)) {
+        // Process only image files
+        if (entry.is_regular_file() && (entry.path().extension() == ".jpg" ||
+                                        entry.path().extension() == ".png")) {
+            std::string imagePath = entry.path().string();
 
-        cv::Mat img = cv::imread(entry.path(), cv::IMREAD_GRAYSCALE);
-        if (img.empty()) {
-            std::cerr << "Error: Could not read image: " << entry.path()
-                      << std::endl;
-            continue;
+            // Load the image
+            cv::Mat image = cv::imread(imagePath, cv::IMREAD_GRAYSCALE);
+            if (image.empty()) {
+                std::cerr << "Error reading image: " << imagePath << std::endl;
+                continue;
+            }
+
+            // Detect keypoints and compute descriptors
+            std::vector<cv::KeyPoint> keypoints;
+            cv::Mat descriptors;
+            sift->detectAndCompute(image, cv::noArray(), keypoints,
+                                   descriptors);
+
+            // Generate the binary file path
+            std::string binFilePath =
+                    binDir + "/" + entry.path().stem().string() + ".bin";
+
+            // Save the descriptors as a binary file
+            std::ofstream binFile(binFilePath, std::ios::binary);
+            if (binFile.is_open()) {
+                int rows = descriptors.rows;
+                int cols = descriptors.cols;
+
+                // Write the descriptor matrix size
+                binFile.write(reinterpret_cast<char*>(&rows), sizeof(int));
+                binFile.write(reinterpret_cast<char*>(&cols), sizeof(int));
+
+                // Write the descriptors
+                binFile.write(reinterpret_cast<char*>(descriptors.data),
+                              descriptors.total() * descriptors.elemSize());
+
+                binFile.close();
+                std::cout << "Saved descriptors for " << imagePath << " to "
+                          << binFilePath << std::endl;
+            } else {
+                std::cerr << "Error opening binary file for writing: "
+                          << binFilePath << std::endl;
+            }
         }
-
-        std::vector<cv::KeyPoint> keypoints;
-        sift->detect(img, keypoints);
-        cv::Mat descriptors;
-        sift->compute(img, keypoints, descriptors);
-        ipb::serialization::Serialize(descriptors, file_name);
     }
 }
-std::vector<cv::Mat> LoadDataset(const std::filesystem::path& bin_path) {
-    std::vector<cv::Mat> mContainer;
-    for (const auto& entry : std::filesystem::directory_iterator(bin_path)) {
-        std::string file_path = entry.path().string();
-        cv::Mat m = ipb::serialization::Deserialize(file_path);
-        mContainer.push_back(m);
-    }
-
-    return mContainer;
-}
-}  // namespace ipb::serialization::sifts
