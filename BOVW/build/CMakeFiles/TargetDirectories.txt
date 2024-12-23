@@ -1,0 +1,4 @@
+/home/ubuntu/Modern_C_for_vision/C++/BOVW/build/CMakeFiles/MyLibrary.dir
+/home/ubuntu/Modern_C_for_vision/C++/BOVW/build/CMakeFiles/MyExecutable.dir
+/home/ubuntu/Modern_C_for_vision/C++/BOVW/build/CMakeFiles/edit_cache.dir
+/home/ubuntu/Modern_C_for_vision/C++/BOVW/build/CMakeFiles/rebuild_cache.dir

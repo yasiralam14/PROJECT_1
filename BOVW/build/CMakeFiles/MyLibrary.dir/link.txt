@@ -1,0 +1,2 @@
+/usr/bin/ar qc libMyLibrary.a CMakeFiles/MyLibrary.dir/lib/src/dictionary.cpp.o CMakeFiles/MyLibrary.dir/lib/src/SearchEngine.cpp.o CMakeFiles/MyLibrary.dir/lib/src/convert_dataset.cpp.o CMakeFiles/MyLibrary.dir/lib/src/load_dataset.cpp.o CMakeFiles/MyLibrary.dir/lib/src/showhtml.cpp.o
+/usr/bin/ranlib libMyLibrary.a
